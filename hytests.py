@@ -1,6 +1,8 @@
 from sklearn.feature_selection import chi2, f_regression, f_classif
 from itertools import combinations
 from operator import itemgetter
+import pandas
+import numpy
 
 
 class Hypot:
@@ -28,11 +30,38 @@ class Hypot:
     def _get_pairs(self, keys):
         return combinations(keys, r=2)
 
+    @staticmethod
+    def _make_mapping(f1, f2, dic, value):
+
+        if f1 not in dic:
+            dic[f1] = {f1: 1.}
+            if f2 not in dic[f1]:
+                dic[f1][f2] = value
+        else:
+            dic[f1][f2] = value
+
+        return dic
+
+    @staticmethod
+    def _map2numpy(mapping, order):
+
+        arr = []
+        for entry in order:
+            arr.append([mapping[entry][f] for f in order])
+        arr = numpy.array(arr, dtype=numpy.float32)
+
+        return arr
+
+    @staticmethod
+    def _numpy2pandas(arr, columns, index=None):
+        return pandas.DataFrame(data=arr, columns=columns, index=index)
+
     def test(self, data, mapping):
 
         features = list(mapping.keys())
         feature_pairs = self._get_pairs(features)
-        p_vals = []
+        p_vals = {}
+
         for pair in feature_pairs:
             f1, f2 = pair
             if mapping[f1] == mapping[f2] == 'cont':
@@ -47,7 +76,12 @@ class Hypot:
             else:
                 p = None
 
-            p_vals.append((f1 + '_' + f2, p[0]))
+            p = round(p[0], 5)
 
-        p_vals = sorted(p_vals, key=itemgetter(1), reverse=True)
-        return p_vals
+            p_vals = self._make_mapping(f1=f1, f2=f2, dic=p_vals, value=p)
+            p_vals = self._make_mapping(f1=f2, f2=f1, dic=p_vals, value=p)
+
+        arr = self._map2numpy(mapping=p_vals, order=features)
+        df = self._numpy2pandas(arr=arr, columns=features, index=features)
+
+        return df
