@@ -23,11 +23,11 @@ selector = RFECV(estimator=rf,
                  cv=StratifiedKFold(n_splits=5, shuffle=True, random_state=SEED),
                  n_jobs=JOBS,
                  verbose=10,
-                 scoring='recall',
-                 min_features_to_select=28
+                 scoring='precision',
+                 min_features_to_select=1
                  )
 
-filename = './data/rfe.pkl'
+filename = './data/rfe_precision.pkl'
 rfe = selector.fit(X.to_numpy(), y.to_numpy().reshape(-1, ))
 pickle.dump(obj=rfe, file=open(filename, 'wb'))
 
