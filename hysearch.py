@@ -21,9 +21,9 @@ rf = RandomForestClassifier(random_state=SEED)
 
 params = {'n_estimators': randint(1, 201),
           'max_depth': randint(2, 201),
-          'min_samples_split': randint(2, 201),
-          'min_samples_leaf': randint(1, 201),
-          'max_features': randint(2, 17)
+          'min_samples_split': randint(2, 401),
+          'min_samples_leaf': randint(1, 401),
+          'max_features': randint(1, 17)
           }
 
 search = RandomizedSearchCV(estimator=rf,
