@@ -24,7 +24,7 @@ selector = RFECV(estimator=rf,
                  n_jobs=JOBS,
                  verbose=10,
                  scoring='precision',
-                 min_features_to_select=1
+                 min_features_to_select=1,
                  )
 
 filename = './data/rfe_precision.pkl'

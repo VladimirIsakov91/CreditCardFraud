@@ -75,21 +75,5 @@ class SMOTE:
 
 if __name__ == '__main__':
 
-    data = pandas.read_csv('./data/important_features.csv', header=0)
-    labels = pandas.read_csv('./data/target.csv', header=0)
-    alg = SMOTE(k=5, N=20)
-
-    gen = alg.simulate(dataset=data.to_numpy().astype(numpy.float32),
-                       labels=labels.to_numpy().astype(numpy.int32),
-                       oversample_target=[1])
-
-    data_, labels_ = next(gen)
-    column_names = list(data.columns)
-    data_ = pandas.DataFrame(data=data_, columns=column_names)
-    labels_ = pandas.DataFrame(data=labels_, columns=['Class'])
-    data = pandas.concat([data, data_])
-    labels = pandas.concat([labels, labels_])
-
-    data.to_csv('./data/smote_important_features.csv', index=False, header=True)
-    labels.to_csv('./data/smote_labels.csv', index=False, header=True)
+    pass
 
