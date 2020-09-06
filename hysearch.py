@@ -20,15 +20,15 @@ y = pandas.read_csv('./data/target.csv', header=0, dtype={'Class': 'int32'})
 rf = RandomForestClassifier(random_state=SEED)
 
 params = {'n_estimators': randint(1, 201),
-          'max_depth': randint(2, 61),
-          'min_samples_split': randint(2, 101),
-          'min_samples_leaf': randint(1, 51),
+          'max_depth': randint(2, 201),
+          'min_samples_split': randint(2, 201),
+          'min_samples_leaf': randint(1, 201),
           'max_features': randint(2, 17)
           }
 
 search = RandomizedSearchCV(estimator=rf,
                             param_distributions=params,
-                            n_iter=1,
+                            n_iter=200,
                             n_jobs=JOBS,
                             cv=StratifiedKFold(random_state=SEED, shuffle=True, n_splits=5),
                             verbose=10,
@@ -40,7 +40,6 @@ search = RandomizedSearchCV(estimator=rf,
                             )
 
 search.fit(X_.to_numpy(), y.to_numpy().reshape(-1, ))
-
 
 res = pandas.DataFrame(search.cv_results_)
 res.to_csv('./data/tune_results.csv', index=False, header=True)
