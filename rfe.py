@@ -1,6 +1,7 @@
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import StratifiedKFold
 from sklearn.feature_selection import RFECV
+from xgboost import XGBClassifier
 import pandas
 import numpy
 import pickle
@@ -17,8 +18,9 @@ X = pandas.read_csv('./data/features.csv', header=0, dtype=types)
 y = pandas.read_csv('./data/target.csv', header=0, dtype={'Class': 'int32'})
 
 rf = RandomForestClassifier(random_state=SEED)
+xgb = XGBClassifier(random_state=SEED)
 
-selector = RFECV(estimator=rf,
+selector = RFECV(estimator=xgb,
                  step=1,
                  cv=StratifiedKFold(n_splits=5, shuffle=True, random_state=SEED),
                  n_jobs=JOBS,
@@ -27,7 +29,7 @@ selector = RFECV(estimator=rf,
                  min_features_to_select=1,
                  )
 
-filename = './data/rfe_precision.pkl'
+filename = './artifacts/rfe_precision_xgb.pkl'
 rfe = selector.fit(X.to_numpy(), y.to_numpy().reshape(-1, ))
 pickle.dump(obj=rfe, file=open(filename, 'wb'))
 
