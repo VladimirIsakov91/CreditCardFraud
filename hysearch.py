@@ -14,7 +14,7 @@ types = {'V1': 'float32', 'V3': 'float32', 'V4': 'float32', 'V6': 'float32',
          'V12': 'float32', 'V14': 'float32', 'V16': 'float32', 'V17': 'float32',
          'V18': 'float32', 'V20': 'float32', 'V21': 'float32', 'V26': 'float32'}
 
-X_ = pandas.read_csv('./data/important_features.csv', header=0, dtype=types)
+X_ = pandas.read_csv('./data/features_rf.csv', header=0, dtype=types)
 y = pandas.read_csv('./data/target.csv', header=0, dtype={'Class': 'int32'})
 
 rf = RandomForestClassifier(random_state=SEED)

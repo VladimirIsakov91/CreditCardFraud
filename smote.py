@@ -2,7 +2,10 @@ import numpy
 from sklearn.metrics.pairwise import euclidean_distances
 import pandas
 
+SEED = 0
+
 numpy.set_printoptions(suppress=True)
+numpy.random.seed(SEED)
 
 
 class SMOTE:
