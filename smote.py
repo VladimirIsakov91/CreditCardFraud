@@ -75,7 +75,6 @@ class SMOTE:
         simulated = simulated.reshape(-1, origin.shape[1])
         return simulated
 
-
 if __name__ == '__main__':
 
     pass
